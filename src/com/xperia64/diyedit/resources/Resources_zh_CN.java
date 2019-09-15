@@ -1,4 +1,4 @@
-﻿package com.xperia64.diyedit.resources;
+package com.xperia64.diyedit.resources;
 
 import java.util.Arrays;
 import java.util.HashSet;
