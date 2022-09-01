@@ -461,4 +461,32 @@ public class Metadata {
 		// true = japan, false = UE
 		return ((file[0x1C]&0xFF)>=0xE0||(file[0x1C]&0xFF)==0xC3);
 	}
+
+	// Returns the first part of the player unique identifier as bytes
+	//  Address is the first 8 bytes of offset 0x00000E0
+	public byte[] getUniquePlayerID1()
+	{
+		int byteSize = 8;
+		int offset = 0x00000E0;
+		byte[] uniquePlayerID = new byte[byteSize];
+
+		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
+			uniquePlayerID[byteIndex] = file[offset + byteIndex];
+
+		return uniquePlayerID;
+	}
+
+	// Returns the second part of the player unique identifier as bytes
+	//  Address is all 16 bytes of offset 0x00000F0
+	public byte[] getUniquePlayerID2()
+	{
+		int byteSize = 16;
+		int offset = 0x00000F0;
+		byte[] uniquePlayerID = new byte[byteSize];
+
+		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
+			uniquePlayerID[byteIndex] = file[offset + byteIndex];
+
+		return uniquePlayerID;
+	}
 }
