@@ -9,7 +9,7 @@ import com.xperia64.diyedit.Globals;
 
 // Generic metadata class, works for all filetypes
 public class Metadata {
-	
+
 	public byte[] file;
 	public Metadata(String f)
 	{
@@ -87,9 +87,9 @@ public class Metadata {
 			}else{
 				values.add((byte) (characters[i].getBytes()[0]&0xFF));
 			}
-			
+
 		}
-		
+
 		for(int i = 0x1C; i<0x32; i++)
 		{
 			if(i-0x1C<values.size())
@@ -98,7 +98,7 @@ public class Metadata {
 			}else{
 				file[i]=0x00;
 			}
-			
+
 		}
 	}
 	// Returns the description from the mio file header
@@ -170,9 +170,9 @@ public class Metadata {
 			}else{
 				values.add((byte) (characters[i].getBytes()[0]&0xFF));
 			}
-			
+
 		}
-		
+
 		for(int i = 0x5B; i<0xA2; i++)
 		{
 			if(i-0x5B<values.size())
@@ -182,7 +182,7 @@ public class Metadata {
 				file[i]=0x00;
 			}
 		}
-		
+
 	}
 	// Returns the brand from the mio file header
 	public String getBrand()
@@ -228,7 +228,7 @@ public class Metadata {
 			}else{
 				brand.append((char)file[i]);
 			}
-			
+
 		}
 		return brand.toString();
 	}
@@ -254,9 +254,9 @@ public class Metadata {
 			}else{
 				values.add((byte) (characters[i].getBytes()[0]&0xFF));
 			}
-			
+
 		}
-		
+
 		for(int i = 0x35; i<0x47; i++)
 		{
 			if(i-0x35<values.size())
@@ -266,7 +266,7 @@ public class Metadata {
 				file[i]=0x00;
 			}
 		}
-		
+
 	}
 	// Returns the creator from the mio file header
 	public String getCreator()
@@ -312,7 +312,7 @@ public class Metadata {
 			}else{
 				cr.append((char)file[i]);
 			}
-			
+
 		}
 		return cr.toString();
 	}
@@ -338,7 +338,7 @@ public class Metadata {
 			}else{
 				values.add((byte) (characters[i].getBytes()[0]&0xFF));
 			}
-			
+
 		}
 		for(int i = 0x48; i<0x5A; i++)
 		{
@@ -460,5 +460,33 @@ public class Metadata {
 	{
 		// true = japan, false = UE
 		return ((file[0x1C]&0xFF)>=0xE0||(file[0x1C]&0xFF)==0xC3);
+	}
+
+	// Returns the first part of the player unique identifier as bytes
+	//  Address is the first 8 bytes of offset 0x00000E0
+	public byte[] getUniquePlayerID1()
+	{
+		int byteSize = 8;
+		int offset = 0x00000E0;
+		byte[] uniquePlayerID = new byte[byteSize];
+
+		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
+			uniquePlayerID[byteIndex] = file[offset + byteIndex];
+
+		return uniquePlayerID;
+	}
+
+	// Returns the second part of the player unique identifier as bytes
+	//  Address is all 16 bytes of offset 0x00000F0
+	public byte[] getUniquePlayerID2()
+	{
+		int byteSize = 16;
+		int offset = 0x00000F0;
+		byte[] uniquePlayerID = new byte[byteSize];
+
+		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
+			uniquePlayerID[byteIndex] = file[offset + byteIndex];
+
+		return uniquePlayerID;
 	}
 }
