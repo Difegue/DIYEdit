@@ -464,7 +464,7 @@ public class Metadata {
 
 	// Returns the player/creator unique identifier as a string
 	//  Address is the first 8 bytes of offset 0x00000E0
-	public string getCreatorId()
+	public String getCreatorId()
 	{
 		int byteSize = 8;
 		int offset = 0x00000E0;
