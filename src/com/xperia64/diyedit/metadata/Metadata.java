@@ -462,9 +462,9 @@ public class Metadata {
 		return ((file[0x1C]&0xFF)>=0xE0||(file[0x1C]&0xFF)==0xC3);
 	}
 
-	// Returns the player/creator unique identifier as bytes
+	// Returns the player/creator unique identifier as a string
 	//  Address is the first 8 bytes of offset 0x00000E0
-	public byte[] getCreatorId()
+	public string getCreatorId()
 	{
 		int byteSize = 8;
 		int offset = 0x00000E0;
@@ -473,12 +473,12 @@ public class Metadata {
 		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
 			creatorId[byteIndex] = file[offset + byteIndex];
 
-		return creatorId;
+		return byteArrayToString(creatorId);
 	}
 
-	// Returns the cartridge unique identifier as bytes
+	// Returns the cartridge unique identifier as a string
 	//  Address is all 16 bytes of offset 0x00000F0
-	public byte[] getCartridgeId()
+	public String getCartridgeId()
 	{
 		int byteSize = 16;
 		int offset = 0x00000F0;
@@ -487,6 +487,16 @@ public class Metadata {
 		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
 			cartridgeId[byteIndex] = file[offset + byteIndex];
 
-		return cartridgeId;
+		return byteArrayToString(cartridgeId);
 	}
+
+	//Converts an array of bytes to a string representation
+	private static String byteArrayToString(byte[] bytes)
+    {
+        String hexString = "";
+        for (byte i : bytes)
+            hexString += String.format("%02X", i);
+
+        return hexString;
+    }
 }
