@@ -462,31 +462,31 @@ public class Metadata {
 		return ((file[0x1C]&0xFF)>=0xE0||(file[0x1C]&0xFF)==0xC3);
 	}
 
-	// Returns the first part of the player unique identifier as bytes
+	// Returns the player/creator unique identifier as bytes
 	//  Address is the first 8 bytes of offset 0x00000E0
-	public byte[] getUniquePlayerID1()
+	public byte[] getCreatorId()
 	{
 		int byteSize = 8;
 		int offset = 0x00000E0;
-		byte[] uniquePlayerID = new byte[byteSize];
+		byte[] creatorId = new byte[byteSize];
 
 		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
-			uniquePlayerID[byteIndex] = file[offset + byteIndex];
+			creatorId[byteIndex] = file[offset + byteIndex];
 
-		return uniquePlayerID;
+		return creatorId;
 	}
 
-	// Returns the second part of the player unique identifier as bytes
+	// Returns the cartridge unique identifier as bytes
 	//  Address is all 16 bytes of offset 0x00000F0
-	public byte[] getUniquePlayerID2()
+	public byte[] getCartridgeId()
 	{
 		int byteSize = 16;
 		int offset = 0x00000F0;
-		byte[] uniquePlayerID = new byte[byteSize];
+		byte[] cartridgeId = new byte[byteSize];
 
 		for (int byteIndex = 0; byteIndex < byteSize; byteIndex++)
-			uniquePlayerID[byteIndex] = file[offset + byteIndex];
+			cartridgeId[byteIndex] = file[offset + byteIndex];
 
-		return uniquePlayerID;
+		return cartridgeId;
 	}
 }
