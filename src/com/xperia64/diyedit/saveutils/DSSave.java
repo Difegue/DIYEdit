@@ -5,6 +5,8 @@ import java.util.ArrayList;
 // Seems to work...
 public class DSSave implements Save {
 
+	// 0x26-0x27, 0x3026-0x3027 = Timestamp
+
 	// 0x2C31-0x2CA8 are medals
 	// 0x5C31-0x5CA8 are backup medals
 	// 06 == medal get
