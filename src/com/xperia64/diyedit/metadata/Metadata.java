@@ -19,52 +19,58 @@ public class Metadata {
 	{
 		file=b;
 	}
+
+	private String getMioString(int offset, int length)
+	{
+		StringBuilder name = new StringBuilder();
+
+		byte[] slice = new byte[length];
+		for(int i = 0; i<length; i++)
+		{
+			slice[i]=file[offset+i];
+		}
+		
+		int nullTerminatorIndex = -1;
+		for(int i = 0; i<length; i++)
+		{
+			if(slice[i]==0)
+			{
+				nullTerminatorIndex=i;
+				break;
+			}
+		}
+
+		if(nullTerminatorIndex!=-1)
+		{
+			length=nullTerminatorIndex;
+			slice = new byte[length];
+			for(int i = 0; i<length; i++)
+			{
+				slice[i]=file[offset+i];
+			}
+		}
+
+		try {
+			name.append(new String(slice, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+
+		return name.toString();
+	}
+
 	// Returns the name in the mio file header
 	public String getName()
 	{
-		StringBuilder name = new StringBuilder();
-		for(int i = 0x1C; i<0x32; i++)
-		{
-			if(file[i]==0)
-			{
-				break;
-			}
-			if((file[i]&0xFF)>=0x80) // Unicode-type thing
-			{
-				if((file[i]&0xFF)>=0xE0) // Japan, why u have 3 byte letters
-				{
-					int key=(file[i]&0xFF)<<16|(file[i+1]&0xFF)<<8|(file[i+2]&0xFF);
-					if(Globals.translation.containsKey(key))
-						name.append(Globals.translation.get(key));
-					else if(key>=0xe38080&&key<=0xe3f02f){
-						byte[] bbb = new byte[3];
-						bbb[0]=file[i];
-						bbb[1]=file[i+1];
-						bbb[2]=file[i+2];
-						try {
-							name.append(new String(bbb,"UTF-8"));
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}else
-						name.append("?");
-					i++;
-					i++;
-				}else{
-					int key=(file[i]&0xFF)<<8|(file[i+1]&0xFF);
-					if(Globals.translation.containsKey(key))
-						name.append(Globals.translation.get(key));
-					else
-						name.append("?");
-					i++; //two.
-				}
-			}else{
-				name.append((char)file[i]);
-			}
-		}
-		return name.toString();
+		int offset = 0x1C;
+		int length = 20;
+
+		if((file[0x1C]&0xE0)==0xE0) // Japanese games have 3 byte letters
+			length=24;
+
+		return getMioString(offset, length);
 	}
+
 	// Sets the name in the mio file header
 	public void setName(String name)
 	{
@@ -101,53 +107,19 @@ public class Metadata {
 
 		}
 	}
+	
 	// Returns the description from the mio file header
 	public String getDescription()
 	{
-		StringBuilder desc = new StringBuilder();
-		for(int i = 0x5B; i<0xA2; i++)
-		{
-			if(file[i]==0)
-			{
-				break;
-			}
-			if((file[i]&0xFF)>=0x80) // Unicode-type thing
-			{
-				if((file[i]&0xFF)>=0xE0) // Japan, why u have 3 byte letters
-				{
-					int key=(file[i]&0xFF)<<16|(file[i+1]&0xFF)<<8|(file[i+2]&0xFF);
-					if(Globals.translation.containsKey(key))
-						desc.append(Globals.translation.get(key));
-					else if(key>=0xe38080&&key<=0xe3f02f){
-						byte[] bbb = new byte[3];
-						bbb[0]=file[i];
-						bbb[1]=file[i+1];
-						bbb[2]=file[i+2];
-						try {
-							desc.append(new String(bbb,"UTF-8"));
-						} catch (UnsupportedEncodingException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					else
-						desc.append("?");
-					i++;
-					i++;
-				}else{
-					int key=(file[i]&0xFF)<<8|(file[i+1]&0xFF);
-					if(Globals.translation.containsKey(key))
-						desc.append(Globals.translation.get(key));
-					else
-						desc.append("?");
-					i++; //two.
-				}
-			}else{
-				desc.append((char)file[i]);
-			}
-		}
-		return desc.toString();
+		int offset = 0x5B;
+		int length = 68;
+
+		if((file[0x1C]&0xE0)==0xE0) // Japanese games have 3 byte letters
+			length=72;
+
+		return getMioString(offset, length);
 	}
+
 	// Sets the description in the mio file header
 	public void setDescription(String desc)
 	{
