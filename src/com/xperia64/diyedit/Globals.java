@@ -205,5 +205,33 @@ public class Globals {
 		// Better alternative characters?
 		return s.replace('?', '¿').replace('/', '〳').replace('\\','〳').replace(':','：').replace('*', '★').replace('\"','\'').replace('<','＜').replace('>','＞').replace('|','l').replace('!','¡');
 	}
-	//ContentLetter+"-"+Person+"("+Brand+")- "+"("+Region+") ("+Date+") "+Title+".mio";
+	
+	public static String replaceUtfChar(String s)
+	{
+		// Replacement map based on UTF-8 characters instead of whatever the heck base DIYEdit was relying on
+		return s.replace("܀","①")
+				.replace("܁","②")
+				.replace("܂","③")
+				.replace("܃","④")
+				.replace("܄","⑤")
+				.replace("܅","⑥")
+				.replace("܆","⑦")
+				.replace("܇","⑧")
+				.replace("܈","⑨")
+				.replace("܉","⑩")
+				.replace("܊","⑪")
+				.replace("܋","⑫")
+				.replace("܌","⑬")
+				.replace("܍","⑭")
+				.replace("܎","⑮")
+				.replace("܏","Ⓐ")
+				.replace("ܐ","Ⓑ")
+				.replace("ܑ","Ⓒ")
+				.replace("ܒ","Ⓓ")
+				.replace("ܓ","★")
+				.replace("ܔ","→")
+				.replace("ܕ","←")
+				.replace("ܖ","↑")
+				.replace("ܗ","↓");	
+	}
 }
