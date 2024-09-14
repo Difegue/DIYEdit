@@ -110,9 +110,8 @@ public class SaveHandler {
 
 	public void setMio(String mioname, int mionumber) // Filename is the save file name, mioname is the mio filename
 	{
-		// saveFile=fbo.read(filename);
 		mioFile = FileByteOperations.read(mioname);
-		System.out.println(mioFile.length);
+		// System.out.println(mioFile.length);
 		if (mioFile.length != 65536 && mioFile.length != 8192 && mioFile.length != 14336) {
 			System.out.println("Not a mio file!");
 			return;
